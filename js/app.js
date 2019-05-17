@@ -24,10 +24,19 @@ const Comments = React.createClass ({
 })
 
 const News = React.createClass ({
-    render: () => {
+    render: function () {
+        const data = this.props.data
+        const newsTemplate = data.map(function (item, index) {
+            return (
+                <div key = {index}>
+                <p className = 'news__author'>{item.author}</p>
+                <p className = 'news__text'>{item.text}</p>
+                </div>
+            )
+        })
         return (
             <div className = 'news'>
-                К сожалению новостей нет.
+                {newsTemplate}
             </div>
         )
     }
