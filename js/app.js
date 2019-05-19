@@ -5,11 +5,11 @@ const App = () => {
 class BigApp extends React.Component {
     render () {
         return (
-            <div>
-            <h1>Привет Я компонент BigApp!</h1>
+            <React.Fragment>
+            <h1>Я компонент BigApp</h1>
             <p className = 'red'>Компоненты можно вкладывать друг в друга</p>
             <App/>
-            </div>
+            </React.Fragment>
         )
     }
 }
