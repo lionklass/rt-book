@@ -1,14 +1,50 @@
+const myNews = [
+    {
+        author: 'Саша Печкин',
+        text: 'В четверг, четвертого числа...'
+      },
+      {
+        author: 'Просто Вася',
+        text: 'Считаю, что $ должен стоить 35 рублей!'
+      },
+      {
+        author: 'Max Frontend',
+        text: 'Прошло 2 года с прошлых учебников, а $ так и не стоит 35'
+      },
+      {
+        author: 'Гость',
+        text: 'Бесплатно. Без смс, про реакт, заходи - https://maxpfrontend.ru'
+      }
+]
+
+
 const App = () => {
     return (
     <React.Fragment>
-    <News/>
+    <News data = {myNews}/>         {/* добавили свойство data */}
     <Comments/>
     </React.Fragment>
     )
 }
 
-const News = () => {
-    return <p>К сожалению никаких новостей нет</p>
+class News extends React.Component {
+    render () {
+        const data = this.props.data
+        const newTemplate = data.map(function (item, index) {
+            return (
+            <div key = {index}>
+            <p className = 'news_author'>{item.author}:</p>
+            <p className = 'news_text'>{item.text}</p>
+            </div>
+            )
+        })
+        console.log(newTemplate)
+        return (
+            <div className = 'news'>
+            {newTemplate}
+            </div>
+        )
+    }
 }
 
 const Comments = () => {
