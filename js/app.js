@@ -39,7 +39,7 @@ const App = () => {
 class News extends React.Component {
     render () {
         const data = this.props.data
-        const newTemplate = data.map(function (item) {      {/* убираем index из аргумента */}
+        const newTemplate = data.map((item) => {      {/* убираем index из аргумента */}
             return (
             <div key = {item.id}>               {/* используем id в качестве ключа */}
             <p className = 'news_author'>{item.author}:</p>
