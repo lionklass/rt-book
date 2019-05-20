@@ -40,9 +40,9 @@ class Article extends React.Component {
 }
 
 class News extends React.Component {
-    render () {
+    renderNews = () => {
         const {data} = this.props
-        let newsTemplate
+        let newsTemplate = null
         {data.length 
         ?
             newsTemplate = data.map((item) => {
@@ -50,9 +50,15 @@ class News extends React.Component {
             })
         :   newsTemplate = <p>К сожалению новостей нет</p>}
 
+        return newsTemplate
+        }
+        
+    render () {
+        const {data} = this.props
+        
         return (
             <div className = 'news'>
-            {newsTemplate}
+            {this.renderNews()}
             {data.length ? <strong className = {'news__count'}>Всего новостей: {data.length}</strong> : null}
             </div>
         )
