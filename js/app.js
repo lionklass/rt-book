@@ -18,6 +18,11 @@ const myNews = [
         id: 4,
         author: 'Гость',
         text: 'Бесплатно. Без смс, про реакт, заходи - https://maxpfrontend.ru'
+      },
+      {
+        id: 5,
+        author: 'Пересмешник',
+        text: 'Бесплатно? Бесплатный сыр — в мышеловке! '
       }
 ]
 
@@ -45,6 +50,7 @@ class News extends React.Component {
         return (
             <div className = 'news'>
             {newTemplate}
+            <strong className = {data.length ? 'news-is' : 'none'}>Всего новостей: {data.length}</strong>
             </div>
         )
     }
