@@ -1,17 +1,21 @@
 const myNews = [
     {
+        id: 1,                      // добавили id
         author: 'Саша Печкин',
         text: 'В четверг, четвертого числа...'
       },
       {
+        id: 2,
         author: 'Просто Вася',
         text: 'Считаю, что $ должен стоить 35 рублей!'
       },
       {
+        id: 3,
         author: 'Max Frontend',
         text: 'Прошло 2 года с прошлых учебников, а $ так и не стоит 35'
       },
       {
+        id: 4,
         author: 'Гость',
         text: 'Бесплатно. Без смс, про реакт, заходи - https://maxpfrontend.ru'
       }
@@ -30,15 +34,14 @@ const App = () => {
 class News extends React.Component {
     render () {
         const data = this.props.data
-        const newTemplate = data.map(function (item, index) {
+        const newTemplate = data.map(function (item) {      {/* убираем index из аргумента */}
             return (
-            <div key = {index}>
+            <div key = {item.id}>               {/* используем id в качестве ключа */}
             <p className = 'news_author'>{item.author}:</p>
             <p className = 'news_text'>{item.text}</p>
             </div>
             )
         })
-        console.log(newTemplate)
         return (
             <div className = 'news'>
             {newTemplate}
