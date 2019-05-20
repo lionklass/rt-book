@@ -33,14 +33,27 @@ const myNews = [
 
 
 class Article extends React.Component {
+    state = {
+        visible: false              // определили начальное состояние
+    }
+    handleReadMoreClick = (e) => {  // добавили метод
+        e.preventDefault()
+        this.setState ({visible: true})
+    }
     render () {
         const {author, text, fullText} = this.props.data
+        const {visible} = this.state            //вытащили visible из this.state
+        console.log('render', this)
         return (
             <div className = 'article'>
             <p className = 'news__author'>{author}:</p>
             <p className = 'news__text'>{text}</p>
-            <a href = '#' className = 'news-readmore'>Подробнее...</a>
-            <p className = 'news__full-text'>{fullText}</p>
+            { /* если не visible, то показывай;  добавили onClick */
+            !visible &&  <a onClick = {this.handleReadMoreClick} href = '#' className = 'news-readmore'>Подробнее...</a>
+            }
+            {   /* если visible, то показывай */
+            visible && <p className = 'news__full-text'>{fullText}</p>
+            }
             </div>
         )
     }
@@ -55,6 +68,12 @@ Article.propTypes = {
   }
 
 class News extends React.Component {
+    state = {
+        counter: 0             // добавили свойство counter (счетчик)
+    }
+    handleCounter = () => {     // добавили новый метод
+        this.setState({counter: ++this.state.counter})      // в котором увеличиваем счетчик
+    }
     renderNews = () => {
         const {data} = this.props
         let newsTemplate = null
@@ -70,11 +89,14 @@ class News extends React.Component {
         
     render () {
         const {data} = this.props
-        
+        const {counter} = this.state    // вытащили counter
         return (
             <div className = 'news'>
             {this.renderNews()}
-            {data.length ? <strong className = {'news__count'}>Всего новостей: {data.length}</strong> : null}
+            { /* добавили onClick */
+                data.length ? <strong onClick = {this.handleCounter} className = {'news__count'}>Всего новостей: {data.length}</strong> : null
+            }
+            <p>Всего кликов: { counter }</p>
             </div>
         )
     }
