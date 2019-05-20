@@ -50,7 +50,7 @@ class News extends React.Component {
         return (
             <div className = 'news'>
             {newTemplate}
-            <strong className = {data.length ? 'news-is' : 'none'}>Всего новостей: {data.length}</strong>
+            {data.length ? <strong className = 'news-is'>Всего новостей: {data.length}</strong> : null}
             </div>
         )
     }
