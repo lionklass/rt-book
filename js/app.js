@@ -27,51 +27,46 @@ const myNews = [
 ]
 
 
-const App = () => {
-    return (
-    <React.Fragment>
-    <News data = {myNews}/>         {/* добавили свойство data */}
-    <Comments/>
-    </React.Fragment>
-    )
+class Article extends React.Component {
+    render () {
+        const {author, text} = this.props.data
+        return (
+            <div className = 'article'>
+            <p className = 'news__author'>{author}:</p>
+            <p className = 'news__text'>{text}</p>
+            </div>
+        )
+    }
 }
 
 class News extends React.Component {
     render () {
-        const data = this.props.data
-        const newTemplate = data.map((item) => {      {/* убираем index из аргумента */}
-            return (
-            <div key = {item.id}>               {/* используем id в качестве ключа */}
-            <p className = 'news_author'>{item.author}:</p>
-            <p className = 'news_text'>{item.text}</p>
-            </div>
-            )
-        })
+        const {data} = this.props
+        let newsTemplate
+        {data.length 
+        ?
+            newsTemplate = data.map((item) => {
+                return <Article key = {item.id} data = {item}/>
+            })
+        :   newsTemplate = <p>К сожалению новостей нет</p>}
+
         return (
             <div className = 'news'>
-            {newTemplate}
-            {data.length ? <strong className = 'news-is'>Всего новостей: {data.length}</strong> : null}
+            {newsTemplate}
+            {data.length ? <strong className = {'news__count'}>Всего новостей: {data.length}</strong> : null}
             </div>
         )
     }
 }
 
-const Comments = () => {
-    return <p>К сожалению пока комментировать нечего</p>
+const App = () => {
+    return (
+    <React.Fragment>
+    <h3>Новости</h3>
+    <News data = {myNews}/>
+    </React.Fragment>
+    )
 }
-
-/* class BigApp extends React.Component {
-    render () {
-        return (
-            <React.Fragment>
-            <h1>Я компонент BigApp</h1>
-            <p className = 'red'>Компоненты можно вкладывать друг в друга</p>
-            <App/>
-            <News/>
-            </React.Fragment>
-        )
-    }
-} */
 
 ReactDOM.render(
     <App/>,
