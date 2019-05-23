@@ -43,7 +43,6 @@ class Article extends React.Component {
     render () {
         const {author, text, fullText} = this.props.data
         const {visible} = this.state            //вытащили visible из this.state
-        console.log('render', this)
         return (
             <div className = 'article'>
             <p className = 'news__author'>{author}:</p>
@@ -68,12 +67,6 @@ Article.propTypes = {
   }
 
 class News extends React.Component {
-    state = {
-        counter: 0             // добавили свойство counter (счетчик)
-    }
-    handleCounter = () => {     // добавили новый метод
-        this.setState({counter: ++this.state.counter})      // в котором увеличиваем счетчик
-    }
     renderNews = () => {
         const {data} = this.props
         let newsTemplate = null
@@ -89,15 +82,42 @@ class News extends React.Component {
         
     render () {
         const {data} = this.props
-        const {counter} = this.state    // вытащили counter
         return (
             <div className = 'news'>
             {this.renderNews()}
-            { /* добавили onClick */
-                data.length ? <strong onClick = {this.handleCounter} className = {'news__count'}>Всего новостей: {data.length}</strong> : null
+            {
+                data.length ? <strong className = {'news__count'}>Всего новостей: {data.length}</strong> : null
             }
-            <p>Всего кликов: { counter }</p>
             </div>
+        )
+    }
+}
+
+// input Component
+
+class TestInput extends React.Component {
+    state = {
+        myValue: ''
+    }
+     // используется e.currentTarget.value
+    onChangeHandler = (e) => {
+        this.setState ({myValue: e.currentTarget.value})
+    }
+    onBtnClickHandler = (e) => {
+        e.preventDefault()
+        alert (this.state.myValue)
+    }
+    render () {
+        return (
+            <React.Fragment>
+            <input 
+            className = 'test-input'
+            onChange = {this.onChangeHandler} // метод onChange
+            value = {this.state.myValue}
+            placeholder = 'Введите значение'
+            />
+            <button onClick = {this.onBtnClickHandler}>Показать алерт</button>
+            </React.Fragment>
         )
     }
 }
@@ -106,6 +126,7 @@ const App = () => {
     return (
     <React.Fragment>
     <h3>Новости</h3>
+    <TestInput/> {/* добавили вывод компонента TestInput */}
     <News data = {myNews}/>
     </React.Fragment>
     )

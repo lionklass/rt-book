@@ -16,6 +16,16 @@ p {
     padding: 3px 5px;
 }
 
+.test-input {
+    background: #FFF;
+    border: 1px solid rgba(0, 89, 181, 0.82);
+    width: 300px;
+    margin: 0 5px 5px 0;
+    box-shadow: 2px 2px 5px -1px rgb(0, 81, 202);
+    padding: 10px 5px;
+    font-size: 16px;
+}
+
 .news__author {
     text-decoration: underline;
     color: #007DDC;
