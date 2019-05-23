@@ -96,25 +96,23 @@ class News extends React.Component {
 // input Component
 
 class TestInput extends React.Component {
-    state = {
-        myValue: ''
+    constructor (props) {
+        super (props)
+        this.input = React.createRef ()
     }
-     // используется e.currentTarget.value
-    onChangeHandler = (e) => {
-        this.setState ({myValue: e.currentTarget.value})
-    }
+
     onBtnClickHandler = (e) => {
         e.preventDefault()
-        alert (this.state.myValue)
+        alert (this.input.current.value)
     }
     render () {
         return (
             <React.Fragment>
             <input 
             className = 'test-input'
-            onChange = {this.onChangeHandler} // метод onChange
-            value = {this.state.myValue}
+            defaultValue = ''
             placeholder = 'Введите значение'
+            ref = {this.input}
             />
             <button onClick = {this.onBtnClickHandler}>Показать алерт</button>
             </React.Fragment>
