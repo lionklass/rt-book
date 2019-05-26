@@ -101,6 +101,10 @@ class TestInput extends React.Component {
         this.input = React.createRef ()
     }
 
+    componentDidMount () {                  // фокус формы по умолчанию
+        this.input.current.focus ()
+    }
+
     onBtnClickHandler = (e) => {
         e.preventDefault()
         alert (this.input.current.value)
