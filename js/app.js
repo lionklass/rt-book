@@ -98,11 +98,13 @@ class News extends React.Component {
 class Add extends React.Component {
     state = {       // добавили начальное состояние
         name: '',
-        text: ''
+        text: '',
+        agree: false        // новое значение состояния - agree (булево)
     }
 
     onBtnClickHandler = (e) => {
         e.preventDefault()
+        alert (this.state.agree)
     }
     handleNameChange = (e) => {        // обработчик, в котором обновляем name
         this.setState ({name: e.currentTarget.value})
@@ -110,8 +112,11 @@ class Add extends React.Component {
     handleTextChange = (e) => {        // обработчик, в котором обновляем text
         this.setState ({text: e.currentTarget.value})
     }
+    handleCheckboxChange = (e) => {        // обработчик кликов по чекбоксу
+        this.setState({ agree: e.currentTarget.checked })      // чтобы установить true/false считываем свойство checked
+    }
     render () {
-        const {name, text} = this.state // вытащили значения из стейта
+        const {name, text, agree} = this.state // вытащили значения из стейта
         return (
             // Форма шаблон
             // добавили value для name и для textarea
@@ -130,9 +135,15 @@ class Add extends React.Component {
             value = {text}
             ></textarea>
             <label className = 'add_checkrule'>
-            <input type = 'checkbox'/>Я согласен с правилами
+            <input type = 'checkbox' onChange ={this.handleCheckboxChange}/>Я согласен с правилами
             </label>
-            <button className = 'add__btn' onClick = {this.onBtnClickHandler}>Показать алерт</button>
+            {/* кнопке добавили disabled равный (НЕ agree) */}
+            <button 
+            className = 'add__btn' 
+            onClick = {this.onBtnClickHandler} 
+            disabled = {!agree}>
+            Показать алерт
+            </button>
             </form>
         )
     }
