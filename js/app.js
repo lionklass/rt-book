@@ -104,7 +104,8 @@ class Add extends React.Component {
 
     onBtnClickHandler = (e) => {
         e.preventDefault()
-        alert (this.state.agree)
+        const {name, text} = this.state
+        alert (`${name}\n${text}`)      // \n = перенос строки
     }
     handleNameChange = (e) => {        // обработчик, в котором обновляем name
         this.setState ({name: e.currentTarget.value})
