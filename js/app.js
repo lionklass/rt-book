@@ -137,7 +137,11 @@ class Add extends React.Component {
             <label className = 'add_checkrule'>
             <input type = 'checkbox' onChange ={this.handleCheckboxChange}/>Я согласен с правилами
             </label>
-            {/* кнопке добавили disabled равный (НЕ agree) */}
+            {/* кнопке добавили disabled равный (НЕ agree) 
+            disabled = true будет означать, что кнопка выключена. 
+            Кнопка должна быть выключена тогда, когда agree = false (то есть, чекбокс не отмечен), 
+            значит мы делаем отрицание (НЕ) с помощью знака восклицания;
+            */}
             <button 
             className = 'add__btn' 
             onClick = {this.onBtnClickHandler} 
