@@ -95,31 +95,45 @@ class News extends React.Component {
 
 // input Component
 
-class TestInput extends React.Component {
-    constructor (props) {
-        super (props)
-        this.input = React.createRef ()
-    }
-
-    componentDidMount () {                  // фокус формы по умолчанию
-        this.input.current.focus ()
+class Add extends React.Component {
+    state = {       // добавили начальное состояние
+        name: '',
+        text: ''
     }
 
     onBtnClickHandler = (e) => {
         e.preventDefault()
-        alert (this.input.current.value)
+    }
+    handleNameChange = (e) => {        // обработчик, в котором обновляем name
+        this.setState ({name: e.currentTarget.value})
+    }
+    handleTextChange = (e) => {        // обработчик, в котором обновляем text
+        this.setState ({text: e.currentTarget.value})
     }
     render () {
+        const {name, text} = this.state // вытащили значения из стейта
         return (
-            <React.Fragment>
+            // Форма шаблон
+            // добавили value для name и для textarea
+            <form className = 'add'>
             <input 
-            className = 'test-input'
-            defaultValue = ''
-            placeholder = 'Введите значение'
-            ref = {this.input}
+            type = 'text'
+            onChange = {this.handleNameChange}
+            className = 'add__author'
+            placeholder = 'Ваше имя'
+            value = {name}
             />
-            <button onClick = {this.onBtnClickHandler}>Показать алерт</button>
-            </React.Fragment>
+            <textarea 
+            onChange = {this.handleTextChange}
+            className = 'add__text'
+            placeholder = 'Текст новости'
+            value = {text}
+            ></textarea>
+            <label className = 'add_checkrule'>
+            <input type = 'checkbox'/>Я согласен с правилами
+            </label>
+            <button className = 'add__btn' onClick = {this.onBtnClickHandler}>Показать алерт</button>
+            </form>
         )
     }
 }
@@ -127,8 +141,8 @@ class TestInput extends React.Component {
 const App = () => {
     return (
     <React.Fragment>
+    <Add/>
     <h3>Новости</h3>
-    <TestInput/> {/* добавили вывод компонента TestInput */}
     <News data = {myNews}/>
     </React.Fragment>
     )
