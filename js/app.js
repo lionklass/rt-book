@@ -116,8 +116,15 @@ class Add extends React.Component {
     handleCheckboxChange = (e) => {        // обработчик кликов по чекбоксу
         this.setState({ agree: e.currentTarget.checked })      // чтобы установить true/false считываем свойство checked
     }
+    validate = () => {
+        const {name, text, agree} = this.state
+        if (name.trim() && text.trim() && agree) {
+            return true
+        } 
+            return false
+    }
     render () {
-        const {name, text, agree} = this.state // вытащили значения из стейта
+        const {name, text, agree} = this.state // вытащили значения из стейта. При validate const agree не востребована
         return (
             // Форма шаблон
             // добавили value для name и для textarea
@@ -146,7 +153,7 @@ class Add extends React.Component {
             <button 
             className = 'add__btn' 
             onClick = {this.onBtnClickHandler} 
-            disabled = {!agree}>
+            disabled = {!this.validate()}>
             Показать алерт
             </button>
             </form>
