@@ -107,7 +107,9 @@ class Add extends React.Component {
         const {name, text} = this.state
         // alert (`${name}\n${text}`)      // \n = перенос строки
         // вызываем вместо alert
-        this.props.onAddNews ()
+        // передаем name и text
+        // full text у нас отсутствует :(
+        this.props.onAddNews ({name, text})
     }
     handleChange = (e) => {        // обработчик, в котором обновляем name и text по id элемента
         const {id, value} = e.currentTarget     // переменная value не активна
@@ -171,8 +173,14 @@ class App extends React.Component {
     state = {
         news: myNews        // в начальное состояние положили значение из переменной
     }
-    handleAddNews = () => {
-        console.log ('я вызвана из Add, но имею доступ к this.state у App!', this.state)
+    handleAddNews = (data) => {
+        // сначала мы формируем массив, на основе
+        // всего того, что уже было в новостях
+        // и кладем это все в новый массив + 
+        // новую новость кладем в начало массива
+        const nextNews = [data, ...this.state.news]
+        // затем обновляем новый массив новостей в this.state.news
+        this.setState ({news: nextNews})
     }
     render () {
         return (
