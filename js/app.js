@@ -105,13 +105,13 @@ class Add extends React.Component {
     onBtnClickHandler = (e) => {
         e.preventDefault()
         const {name, text} = this.state
-        alert (`${name}\n${text}`)      // \n = перенос строки
+        // alert (`${name}\n${text}`)      // \n = перенос строки
+        // вызываем вместо alert
+        this.props.onAddNews ()
     }
-    handleNameChange = (e) => {        // обработчик, в котором обновляем name
-        this.setState ({name: e.currentTarget.value})
-    }
-    handleTextChange = (e) => {        // обработчик, в котором обновляем text
-        this.setState ({text: e.currentTarget.value})
+    handleChange = (e) => {        // обработчик, в котором обновляем name и text по id элемента
+        const {id, value} = e.currentTarget     // переменная value не активна
+        this.setState ({[id]: e.currentTarget.value})
     }
     handleCheckboxChange = (e) => {        // обработчик кликов по чекбоксу
         this.setState({ agree: e.currentTarget.checked })      // чтобы установить true/false считываем свойство checked
@@ -130,14 +130,16 @@ class Add extends React.Component {
             // добавили value для name и для textarea
             <form className = 'add'>
             <input 
+            id = 'name'
             type = 'text'
-            onChange = {this.handleNameChange}
+            onChange = {this.handleChange}
             className = 'add__author'
             placeholder = 'Ваше имя'
             value = {name}
             />
             <textarea 
-            onChange = {this.handleTextChange}
+            id = 'text'
+            onChange = {this.handleChange}
             className = 'add__text'
             placeholder = 'Текст новости'
             value = {text}
@@ -161,14 +163,27 @@ class Add extends React.Component {
     }
 }
 
-const App = () => {
-    return (
-    <React.Fragment>
-    <Add/>
-    <h3>Новости</h3>
-    <News data = {myNews}/>
-    </React.Fragment>
-    )
+Add.propTypes = {
+    onAddNews: PropTypes.func.isRequired            // func используется для проверки передачи function
+}
+
+class App extends React.Component {
+    state = {
+        news: myNews        // в начальное состояние положили значение из переменной
+    }
+    handleAddNews = () => {
+        console.log ('я вызвана из Add, но имею доступ к this.state у App!', this.state)
+    }
+    render () {
+        return (
+            <React.Fragment>
+            <Add onAddNews = {this.handleAddNews}/>
+            <h3>Новости</h3>
+            {/* считали новости из this.state */}
+            <News data = {this.state.news}/>
+            </React.Fragment>
+        )
+    }
 }
 
 ReactDOM.render(
