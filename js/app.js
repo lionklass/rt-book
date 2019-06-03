@@ -60,9 +60,10 @@ class Article extends React.Component {
 
 Article.propTypes = {
     data: PropTypes.shape({
-      author: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      fullText: PropTypes.string.isRequired // добавили propTypes для bigText
+        id: PropTypes.number.isRequired,        // добавили id, это число, обязательно
+        author: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        fullText: PropTypes.string.isRequired // добавили propTypes для bigText
     })
   }
 
@@ -93,23 +94,33 @@ class News extends React.Component {
     }
 }
 
+News.propTypes = {
+    data: PropTypes.array.isRequired  // без комментариев
+}
+
 // input Component
 
 class Add extends React.Component {
     state = {       // добавили начальное состояние
         name: '',
         text: '',
+        fullText: '',   // добавлен fullText
         agree: false        // новое значение состояния - agree (булево)
     }
 
     onBtnClickHandler = (e) => {
         e.preventDefault()
-        const {name, text} = this.state
+        const {name, text, fullText} = this.state   // вытащили так же и fullText
         // alert (`${name}\n${text}`)      // \n = перенос строки
         // вызываем вместо alert
         // передаем name и text
         // full text у нас отсутствует :(
-        this.props.onAddNews ({name, text})
+        this.props.onAddNews ({
+            id: +new Date (),        // в id сохраняется количество миллисекунд прошедших с 1 января 1970 года в часовом поясе UTC
+            author: name,
+            text,
+            fullText
+        })
     }
     handleChange = (e) => {        // обработчик, в котором обновляем name и text по id элемента
         const {id, value} = e.currentTarget     // переменная value не активна
@@ -126,7 +137,7 @@ class Add extends React.Component {
             return false
     }
     render () {
-        const {name, text, agree} = this.state // вытащили значения из стейта. При validate const agree не востребована
+        const {name, text, fullText, agree} = this.state // вытащили значения из стейта. При validate const agree не востребована
         return (
             // Форма шаблон
             // добавили value для name и для textarea
@@ -145,6 +156,13 @@ class Add extends React.Component {
             className = 'add__text'
             placeholder = 'Текст новости'
             value = {text}
+            ></textarea>
+            <textarea 
+            id = 'fullText'
+            onChange = {this.handleChange}
+            className = 'add__text'
+            placeholder = 'Текст новости подробно'
+            value = {fullText}
             ></textarea>
             <label className = 'add_checkrule'>
             <input type = 'checkbox' onChange ={this.handleCheckboxChange}/>Я согласен с правилами
