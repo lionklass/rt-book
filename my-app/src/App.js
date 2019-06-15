@@ -2,12 +2,27 @@ import React from 'react';
 import './App.css';
 import { Add } from './components/Add';
 import { News } from './components/News';
-import newsData from './data/newsData'          // импорт по дефолту
 
 
 class App extends React.Component {
   state = {
-      news: newsData        // в начальное состояние положили значение из переменной
+      news: null,        // было newsData с импортом newsData.json
+      isLoading: false    // статус для манипуляций "прелоадером" ("Загружаю..." в нашем случае)
+  }
+  componentDidMount () {
+    this.setState ({isLoading: true})
+    fetch ('http://localhost:3000/data/newsData.json')
+    .then (response => {
+      return response.json ()
+    })
+    .then (data => {
+      setTimeout (() => {     // для лоадера
+        this.setState ({
+          isLoading: false,
+          news: data
+        })
+      },3000)
+    })
   }
   handleAddNews = (data) => {
       // сначала мы формируем массив, на основе
@@ -19,12 +34,14 @@ class App extends React.Component {
       this.setState ({news: nextNews})
   }
   render () {
+    const {news, isLoading} = this.state      // все необходимое взяли из state
       return (
           <React.Fragment>
           <Add onAddNews = {this.handleAddNews}/>
           <h3>Новости</h3>
           {/* считали новости из this.state */}
-          <News data = {this.state.news}/>
+          {isLoading && <p>Загружаю</p>}
+          {Array.isArray (news) && <News data = {news}/>}
           </React.Fragment>
       )
   }
