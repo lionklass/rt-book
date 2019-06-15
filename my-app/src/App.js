@@ -52,7 +52,7 @@ class Article extends React.Component {
           <p className = 'news__author'>{author}:</p>
           <p className = 'news__text'>{text}</p>
           { /* если не visible, то показывай;  добавили onClick */
-          !visible &&  <a onClick = {this.handleReadMoreClick} href ='#' className = 'news-readmore'>Подробнее...</a>
+          !visible &&  <a onClick = {this.handleReadMoreClick} href ='#readmore' className = 'news-readmore'>Подробнее...</a> /* # заменили на #readmore — eslint */
           }
           {   /* если visible, то показывай */
           visible && <p className = 'news__full-text'>{fullText}</p>
@@ -125,8 +125,8 @@ class Add extends React.Component {
       })
   }
   handleChange = (e) => {        // обработчик, в котором обновляем name и text по id элемента
-      const {id, value} = e.currentTarget     // переменная value не активна
-      this.setState ({[id]: e.currentTarget.value})
+      const {id, value} = e.currentTarget     
+      this.setState ({[id]: value})
   }
   handleCheckboxChange = (e) => {        // обработчик кликов по чекбоксу
       this.setState({ agree: e.currentTarget.checked })      // чтобы установить true/false считываем свойство checked
@@ -139,7 +139,7 @@ class Add extends React.Component {
           return false
   }
   render () {
-      const {name, text, fullText, agree} = this.state // вытащили значения из стейта. При validate const agree не востребована
+      const {name, text, fullText} = this.state // вытащили значения из стейта. При validate const agree не востребована (удалена — eslint)
       return (
           // Форма шаблон
           // добавили value для name и для textarea
