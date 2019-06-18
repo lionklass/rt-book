@@ -6,15 +6,16 @@ class News extends React.Component {
     state = {
         filteredNews: this.props.data       // создали состояние
     }
-    componentWillReceiveProps (nextProps) {
-        let nextFilteredNews = [...nextProps.data]
-
+    static getDerivedStateFromProps (props, state) {
+        let nextFilteredNews = [...props.data]      // было nextProps - переименовали
         nextFilteredNews.forEach ((item, index) => {
             if (item.fullText.toLowerCase ().indexOf ('pubs') !== -1) {
                 item.fullText = 'СПАМ'
             }
         })
-        this.setState ({filteredNews: nextFilteredNews}) 
+        return {
+            filteredNews: nextFilteredNews
+        }
     }
     renderNews = () => {
         const {filteredNews} = this.state   // используем состояние
