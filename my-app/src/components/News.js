@@ -3,11 +3,24 @@ import PropTypes from 'prop-types';
 import { Article } from './Article';
 
 class News extends React.Component {
+    state = {
+        filteredNews: this.props.data       // создали состояние
+    }
+    componentWillReceiveProps (nextProps) {
+        let nextFilteredNews = [...nextProps.data]
+
+        nextFilteredNews.forEach ((item, index) => {
+            if (item.fullText.toLowerCase ().indexOf ('pubs') !== -1) {
+                item.fullText = 'СПАМ'
+            }
+        })
+        this.setState ({filteredNews: nextFilteredNews}) 
+    }
     renderNews = () => {
-        const {data} = this.props
+        const {filteredNews} = this.state   // используем состояние
         let newsTemplate = null
-        data.length 
-        ?   newsTemplate = data.map((item) => {
+        filteredNews.length                 // везде data заменена на filteredNews
+        ?   newsTemplate = filteredNews.map((item) => {
                 return <Article key = {item.id} data = {item}/>
             })
         :   newsTemplate = <p>К сожалению новостей нет</p>
@@ -15,12 +28,12 @@ class News extends React.Component {
         }
         
     render () {
-        const {data} = this.props
+        const {filteredNews} = this.state       // аналогично, используем состояние
         return (
             <div className = 'news'>
             {this.renderNews()}
             {
-                data.length ? <strong className = {'news__count'}>Всего новостей: {data.length}</strong> : null
+                filteredNews.length ? <strong className = {'news__count'}>Всего новостей: {filteredNews.length}</strong> : null
             }
             </div>
         )
