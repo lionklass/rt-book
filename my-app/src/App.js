@@ -9,6 +9,26 @@ class App extends React.Component {
       news: null,        // было newsData с импортом newsData.json
       isLoading: false    // статус для манипуляций "прелоадером" ("Загружаю..." в нашем случае)
   }
+  static getDerivedStateFromProps (props, state) {
+    let nextFilteredNews
+    
+    // смотрим в state.news (ранее смотрели в props)
+    // и проверяем, чтобы не клонировать null
+    // например, в момент первой отрисовки
+    if (Array.isArray (state.news)) {
+      nextFilteredNews = [...state.news]
+
+      nextFilteredNews.forEach ((item, index) => {
+        if (item.fullText.toLowerCase ().indexOf ('pubg') !== -1) {
+          item.fullText = 'СПАМ'
+        }
+      })
+      return {
+        filteredNews: nextFilteredNews
+      }
+    }
+    return null
+  }
   componentDidMount () {
     this.setState ({isLoading: true})
     fetch ('http://localhost:3000/data/newsData.json')
@@ -21,7 +41,7 @@ class App extends React.Component {
           isLoading: false,
           news: data
         })
-      },3000)
+      },1000)
     })
   }
   handleAddNews = (data) => {
